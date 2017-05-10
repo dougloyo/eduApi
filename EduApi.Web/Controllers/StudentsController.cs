@@ -1,49 +1,111 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using System.Web.Http;
+using EduApi.Web.Models;
+using EduApi.Web.Services;
 
 namespace EduApi.Web.Controllers
 {
     public class StudentsController : ApiController
     {
+        private IStudentsService _studentsService;
+        public StudentsController()
+        {
+            _studentsService = new StudentsService();
+        }
         // GET: api/Students
         public async Task<IHttpActionResult> Get()
         {
-            // await a new task.
-            var model = await Task.Run(()=> new [] { "value1", "value2" });
-
-            return Ok(model);
+            try
+            {
+                var model = await _studentsService.Get();
+                return Ok(model);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
         }
 
         // GET: api/Students/5
         public async Task<IHttpActionResult> Get(int id)
         {
-            var model = await Task.Run(() => "Value");
-            return Ok(model);
+            try
+            {
+                var model = await _studentsService.Get(id);
+                return Ok(model);
+            }
+            catch (InvalidOperationException)
+            {
+                return NotFound();
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
         }
 
         // POST: api/Students
-        public async Task<IHttpActionResult> Post([FromBody]string value)
+        public async Task<IHttpActionResult> Post([FromBody]Student model)
         {
-            var model = value;
-            
-            var createdLocation = Path.Combine(Request.RequestUri.ToString(), model);
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
 
-            return Created(createdLocation, model);
+                await _studentsService.Add(model);
+
+                var createdLocation = Path.Combine(Request.RequestUri.ToString(), model.Id.ToString());
+
+                return Created(createdLocation, model);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
         }
 
         // PUT: api/Students/5
-        public async Task<IHttpActionResult> Put(int id, [FromBody]string requestModel)
+        public async Task<IHttpActionResult> Put(int id, [FromBody]Student model)
         {
-            // For a put action we return Ok with no content.
-            return Ok();
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
+                if (id != model.Id)
+                    return BadRequest($"requested Id ({id}) and Model.Id ({model.Id}) do not match. Please verify and try again.");
+
+                await _studentsService.Update(model);
+
+                // For a put action we return Ok with no content.
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+
         }
 
         // DELETE: api/Students/5
         public async Task<IHttpActionResult> Delete(int id)
         {
-            // Return Ok no content.
-            return Ok();
+            try
+            {
+                await _studentsService.Delete(id);
+                // Return Ok no content.
+                return Ok();
+            }
+            catch (InvalidOperationException)
+            {
+                return NotFound();
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
         }
     }
 }

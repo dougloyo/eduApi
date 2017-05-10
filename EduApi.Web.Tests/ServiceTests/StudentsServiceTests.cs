@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using EduApi.Web.Models;
 using EduApi.Web.Services;
@@ -81,6 +82,14 @@ namespace EduApi.Web.Tests.ServiceTests
                 // Get a student and update his name.
                 var actualModel = await service.Get(1);
                 Assert.IsNull(actualModel);
+            }
+
+            [TestMethod]
+            [ExpectedException(typeof(InvalidOperationException))]
+            public async Task Should_throw_exception_if_student_id_does_NOT_exist()
+            {
+                IStudentsService service = new StudentsService();
+                await service.Delete(-99);
             }
         }
     }

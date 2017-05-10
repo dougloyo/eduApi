@@ -31,6 +31,10 @@ namespace EduApi.Web.Services
         public async Task<Student> Get(int id)
         {
             var model = await Task.Run(() => _students.SingleOrDefault(x => x.Id == id));
+
+            if (model == null)
+                throw new InvalidOperationException();
+
             return model;
         }
 
