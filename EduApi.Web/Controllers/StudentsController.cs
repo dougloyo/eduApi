@@ -10,9 +10,9 @@ namespace EduApi.Web.Controllers
     public class StudentsController : ApiController
     {
         private IStudentsService _studentsService;
-        public StudentsController()
+        public StudentsController(IStudentsService studentsService)
         {
-            _studentsService = new StudentsService();
+            _studentsService = studentsService;
         }
         // GET: api/Students
         public async Task<IHttpActionResult> Get()
