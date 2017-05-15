@@ -33,7 +33,7 @@ namespace EduApi.Web.Services
             var model = await Task.Run(() => _students.SingleOrDefault(x => x.Id == id));
 
             if (model == null)
-                throw new InvalidOperationException();
+                throw new InvalidOperationException("Not found: student with requested Id was not found.");
 
             return model;
         }
@@ -61,7 +61,7 @@ namespace EduApi.Web.Services
             var modelToDelete = _students.SingleOrDefault(x => x.Id == id);
 
             if (modelToDelete == null)
-                throw new InvalidOperationException();
+                throw new InvalidOperationException("Not deleted: requested student Id was not found.");
 
             await Task.Run(() => _students.Remove(modelToDelete));
         }

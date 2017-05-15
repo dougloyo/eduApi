@@ -7,6 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace EduApi.Web.Tests.ServiceTests
 {
+    [TestClass]
     public class StudentsServiceTests
     {
         [TestClass]
@@ -73,19 +74,20 @@ namespace EduApi.Web.Tests.ServiceTests
         public class When_deleting_a_student
         {
             [TestMethod]
+            [ExpectedException(typeof(InvalidOperationException), "Not found: student with requested Id was not found.")]
             public async Task Should_delete_student()
             {
                 IStudentsService service = new StudentsService();
 
                 await service.Delete(1);
 
-                // Get a student and update his name.
-                var actualModel = await service.Get(1);
-                Assert.IsNull(actualModel);
+                // Try and get the student that we just deleted and it should fail.
+                await service.Get(1);
+
             }
 
             [TestMethod]
-            [ExpectedException(typeof(InvalidOperationException))]
+            [ExpectedException(typeof(InvalidOperationException), "Not deleted: requested student Id was not found.")]
             public async Task Should_throw_exception_if_student_id_does_NOT_exist()
             {
                 IStudentsService service = new StudentsService();
