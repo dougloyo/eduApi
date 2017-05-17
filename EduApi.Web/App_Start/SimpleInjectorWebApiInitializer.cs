@@ -1,3 +1,4 @@
+using EduApi.Web.Data;
 using EduApi.Web.Services;
 using SimpleInjector.Lifestyles;
 
@@ -29,6 +30,8 @@ namespace EduApi.Web.App_Start
         private static void InitializeContainer(Container container)
         {
             container.Register<IStudentsService, StudentsService>();
+
+            container.Register<DatabaseContext, DatabaseContext>(Lifestyle.Scoped);
 
             // For instance:
             // container.Register<IUserRepository, SqlUserRepository>(Lifestyle.Scoped);
