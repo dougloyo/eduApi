@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Threading.Tasks;
 using EduApi.Web.Data;
+using EduApi.Web.Data.Helpers;
 using EduApi.Web.Models;
 
 namespace EduApi.Web.Services
@@ -41,6 +42,7 @@ namespace EduApi.Web.Services
 
         public async Task<Student> Add(Student model)
         {
+            model.SetInsertAuditFields();
             _db.Students.Add(model);
             await _db.SaveChangesAsync();
             return model;
@@ -64,6 +66,7 @@ namespace EduApi.Web.Services
             modelToUpdate.Gender = model.Gender;
             modelToUpdate.Grade = model.Grade;
             
+            modelToUpdate.SetUpdateAuditFields();
 
             await _db.SaveChangesAsync();
         }

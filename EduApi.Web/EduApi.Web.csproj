@@ -122,12 +122,18 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\StudentsController.cs" />
     <Compile Include="Data\DatabaseContext.cs" />
+    <Compile Include="Data\Helpers\EntityHelpers.cs" />
+    <Compile Include="Data\Models\BaseEntity.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Migrations\201705152259561_Initial.cs" />
     <Compile Include="Migrations\201705152259561_Initial.Designer.cs">
       <DependentUpon>201705152259561_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705171345345_AddingBaseEntityModel.cs" />
+    <Compile Include="Migrations\201705171345345_AddingBaseEntityModel.Designer.cs">
+      <DependentUpon>201705171345345_AddingBaseEntityModel.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Student.cs" />
@@ -149,6 +155,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201705152259561_Initial.resx">
       <DependentUpon>201705152259561_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705171345345_AddingBaseEntityModel.resx">
+      <DependentUpon>201705171345345_AddingBaseEntityModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

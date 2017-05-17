@@ -1,12 +1,11 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using EduApi.Web.Data.Models;
 
 namespace EduApi.Web.Models
 {
-    public class Student
+    public class Student : BaseEntity
     {
-        public int Id { get; set; }
-
         [Required]
         [MaxLength(50)]
         public string StudentId { get; set; }
