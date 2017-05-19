@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.SqlClient;
 using System.IO;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -21,6 +22,10 @@ namespace EduApi.Web.Controllers
             {
                 var model = await _studentsService.Get();
                 return Ok(model);
+            }
+            catch (SqlException ex)
+            {
+                return InternalServerError(ex);
             }
             catch (Exception ex)
             {
