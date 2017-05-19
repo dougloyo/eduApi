@@ -17,6 +17,37 @@ namespace EduApi.Web.Controllers.Admin
     {
         // GET: api/Admin
         /// <summary>
+        /// Gets migration log
+        /// </summary>
+        /// <remarks>
+        /// Allows EF migrations to be applied.
+        /// </remarks>
+        /// <returns></returns>
+        /// <response code="200"></response>
+        [Route("api/admin/migratedb")]
+        public IHttpActionResult Get(string key, string secret)
+        {
+            try
+            {
+                if (key != "myKey" || secret != "1qaz@WSX")
+                    return BadRequest("Bad credentials.");
+
+                var configuration = new Configuration();
+                var migrator = new DbMigrator(configuration);
+                migrator.Update();
+
+
+                return Ok("Migration applied successfully");
+            }
+            catch (Exception ex)
+            {
+
+                return InternalServerError(ex);
+            }
+        }
+
+        // POST: api/Admin
+        /// <summary>
         /// Applies all migrations to the connection string configured database.
         /// </summary>
         /// <remarks>
