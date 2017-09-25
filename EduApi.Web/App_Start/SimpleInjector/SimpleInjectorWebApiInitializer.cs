@@ -1,14 +1,13 @@
+using System.Web.Http;
 using EduApi.Web.Data;
-using EduApi.Web.Services;
+using EduApi.Web.SimpleInjector;
+using SimpleInjector;
+using SimpleInjector.Integration.WebApi;
 using SimpleInjector.Lifestyles;
 
-[assembly: WebActivator.PostApplicationStartMethod(typeof(EduApi.Web.App_Start.SimpleInjectorWebApiInitializer), "Initialize")]
-namespace EduApi.Web.App_Start
+[assembly: WebActivator.PostApplicationStartMethod(typeof(SimpleInjectorWebApiInitializer), "Initialize")]
+namespace EduApi.Web.SimpleInjector
 {
-    using System.Web.Http;
-    using SimpleInjector;
-    using SimpleInjector.Integration.WebApi;
-    
     public static class SimpleInjectorWebApiInitializer
     {
         /// <summary>Initialize the container and register it as Web API Dependency Resolver.</summary>
@@ -16,7 +15,9 @@ namespace EduApi.Web.App_Start
         {
             var container = new Container();
             container.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();
-            
+
+            ServicesContainer.Register(container);
+
             InitializeContainer(container);
 
             container.RegisterWebApiControllers(GlobalConfiguration.Configuration);
@@ -29,12 +30,11 @@ namespace EduApi.Web.App_Start
      
         private static void InitializeContainer(Container container)
         {
-            container.Register<IStudentsService, StudentsService>();
-
             container.Register<DatabaseContext, DatabaseContext>(Lifestyle.Scoped);
 
             // For instance:
             // container.Register<IUserRepository, SqlUserRepository>(Lifestyle.Scoped);
         }
+
     }
 }
