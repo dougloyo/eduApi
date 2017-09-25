@@ -3,6 +3,8 @@ using EduApi.Web;
 using EduApi.Web.Providers;
 using EduApi.Web.SimpleInjector;
 using Microsoft.Owin;
+using Microsoft.Owin.FileSystems;
+using Microsoft.Owin.StaticFiles;
 using Owin;
 using SimpleInjector.Integration.WebApi;
 
@@ -18,6 +20,8 @@ namespace EduApi.Web
 
             SimpleInjectorWebApiInitializer.Initialize(httpConfiguration);
             SwaggerConfig.Register(httpConfiguration);
+
+            appBuilder.UseFileServer(true);
         }
     }
 }
