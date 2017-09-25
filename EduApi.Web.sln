@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduApi.Web", "EduApi.Web\Ed
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduApi.Web.Tests", "EduApi.Web.Tests\EduApi.Web.Tests.csproj", "{47EFBA67-12DC-4141-AFE6-436F3E2A09DE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduApi.Console", "EduApi.Console\EduApi.Console.csproj", "{5E881637-B84B-4A8F-BD67-00784E3EB6E9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{47EFBA67-12DC-4141-AFE6-436F3E2A09DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{47EFBA67-12DC-4141-AFE6-436F3E2A09DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{47EFBA67-12DC-4141-AFE6-436F3E2A09DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E881637-B84B-4A8F-BD67-00784E3EB6E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E881637-B84B-4A8F-BD67-00784E3EB6E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E881637-B84B-4A8F-BD67-00784E3EB6E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E881637-B84B-4A8F-BD67-00784E3EB6E9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
