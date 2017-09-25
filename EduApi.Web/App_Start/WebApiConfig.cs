@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using Owin;
 
 namespace EduApi.Web
 {
     public static class WebApiConfig
     {
-        public static void Register(HttpConfiguration config)
+        public static void Register(IAppBuilder app, HttpConfiguration config)
         {
             /* Web API configuration and services */
 
