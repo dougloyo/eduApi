@@ -1,5 +1,6 @@
 ﻿using System.Web.Http;
 using EduApi.Web;
+using EduApi.Web.Providers;
 using EduApi.Web.SimpleInjector;
 using Microsoft.Owin;
 using Owin;
