@@ -4,6 +4,9 @@ using EduApi.Web.Data.Models;
 
 namespace EduApi.Web.Models
 {
+    /// <summary>
+    /// The Student model containing properties like the StudentId, Name, ...
+    /// </summary>
     public class Student : BaseEntity
     {
         /// <summary>
