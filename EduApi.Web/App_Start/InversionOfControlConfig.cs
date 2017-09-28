@@ -1,5 +1,6 @@
-﻿using EduApi.Web.Data;
-using EduApi.Web.Services;
+﻿using System.Linq;
+using System.Reflection;
+using EduApi.Web.Data;
 using SimpleInjector;
 using SimpleInjector.Lifestyles;
 
@@ -26,8 +27,29 @@ namespace EduApi.Web.App_Start
         
         private static void RegisterDependencies(Container container)
         {
-            container.Register<IStudentsService, StudentsService>();
+            // Register services by convention:
+            // I.E.: container.Register<IStudentsService, StudentsService>();
+            RegisterServicesByConvention(container);
+
             container.Register<DatabaseContext, DatabaseContext>(Lifestyle.Scoped);
+        }
+
+        private static void RegisterServicesByConvention(Container container)
+        {
+            var types = Assembly.GetExecutingAssembly().GetTypes();
+
+            var servicesToRegister = (
+                from interfaceType in types.Where(t => t.Name.StartsWith("I") && t.Name.EndsWith("Service"))
+                from serviceType in types.Where(t => t.Name == interfaceType.Name.Substring(1) && t.Namespace == interfaceType.Namespace)
+                select new
+                {
+                    InterfaceType = interfaceType,
+                    ServiceType = serviceType
+                }
+            );
+
+            foreach (var pair in servicesToRegister)
+                container.Register(pair.InterfaceType, pair.ServiceType);
         }
     }
 }
