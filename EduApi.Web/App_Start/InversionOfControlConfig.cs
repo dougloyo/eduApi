@@ -1,6 +1,10 @@
 ﻿using System.Linq;
 using System.Reflection;
 using EduApi.Web.Data;
+using EduApi.Web.Providers;
+using EduApi.Web.Security;
+using EduApi.Web.Security.JWT;
+using Microsoft.Owin.Security.OAuth;
 using SimpleInjector;
 using SimpleInjector.Lifestyles;
 
@@ -31,7 +35,20 @@ namespace EduApi.Web.App_Start
             // I.E.: container.Register<IStudentsService, StudentsService>();
             RegisterServicesByConvention(container);
 
+            // Register Database dependencies.
             container.Register<DatabaseContext, DatabaseContext>(Lifestyle.Scoped);
+
+            // Register Providers.
+            container.Register<IApplicationSettingsProvider, ApplicationSettingsProvider>();
+
+            container.Register<JwtAuthorizationServerConfig>();
+            container.Register<JwtBearerTokenAuthenticationConfig>();
+
+            container.Register<IClaimsIdentityProvider, DefaultClaimsIdentityProvider>();
+            container.Register<IClaimsProvider, DefaultClaimsProvider>();
+            container.Register<ISigningCredentialsProvider, HMACSHA256SigningCredentialsProvider>();
+            container.Register<ITokenFormatProvider, JwtTokenFormatProvider>();
+            container.Register<OAuthAuthorizationServerProvider, DefaultOAuthAuthorizationServerProvider>();
         }
 
         private static void RegisterServicesByConvention(Container container)

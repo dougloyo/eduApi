@@ -19,14 +19,22 @@ namespace EduApi.Web
         {
             // Enable IoC
             var ioCConfig = new InversionOfControlConfig();
-            
-            app.UseOwinContextInjector(ioCConfig.GetInitializedContainer());
+            var container = ioCConfig.GetInitializedContainer();
 
+            app.UseOwinContextInjector(container);
+
+            //Configure Authorization Server
+            var authorizationServerConfig = container.GetInstance<JwtAuthorizationServerConfig>();
+            authorizationServerConfig.Configure(app);
+
+            //Configure Bearer Token Authentication 
+            var tokenBearerAuthenticationConfig = container.GetInstance<JwtBearerTokenAuthenticationConfig>();
+            tokenBearerAuthenticationConfig.Config(app);
 
             // Enable WebApi with IoC
             var httpConfiguration = new HttpConfiguration
             {
-                DependencyResolver = new SimpleInjectorWebApiDependencyResolver(ioCConfig.GetInitializedContainer())
+                DependencyResolver = new SimpleInjectorWebApiDependencyResolver(container)
             };                        
 
             WebApiConfig.Register(httpConfiguration);

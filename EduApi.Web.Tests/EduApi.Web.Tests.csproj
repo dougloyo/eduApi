@@ -57,6 +57,7 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
+    <Reference Include="System.IdentityModel" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.Web.Extensions" />
@@ -68,6 +69,7 @@
   <ItemGroup>
     <Compile Include="EntityFrameworkMockingHelpers\AsyncDatabaseContextMockingHelper.cs" />
     <Compile Include="EntityFrameworkMockingHelpers\TestDbAsyncQueryProvider.cs" />
+    <Compile Include="Security\HMACKSHA256SigningTests.cs" />
     <Compile Include="ServiceTests\StudentsServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
