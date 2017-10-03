@@ -11,11 +11,11 @@ namespace EduApi.Web.App_Start
     {
         private readonly IApplicationSettingsProvider _applicationSettingsProvider;
         private readonly ITokenFormatProvider _tokenFormatProvider;
-        private readonly OAuthAuthorizationServerProvider _oAuthAuthorizationServerProvider;
+        private readonly IOAuthAuthorizationServerProvider _oAuthAuthorizationServerProvider;
 
         public JwtAuthorizationServerConfig(IApplicationSettingsProvider applicationSettingsProvider, 
                                             ITokenFormatProvider tokenFormatProvider,
-                                            OAuthAuthorizationServerProvider oAuthAuthorizationServerProvider)
+                                            IOAuthAuthorizationServerProvider oAuthAuthorizationServerProvider)
         {
             _applicationSettingsProvider = applicationSettingsProvider;
             _tokenFormatProvider = tokenFormatProvider;
@@ -32,6 +32,7 @@ namespace EduApi.Web.App_Start
                 AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(expiresInMinutes),
                 AccessTokenFormat = _tokenFormatProvider,
                 Provider = _oAuthAuthorizationServerProvider,
+                
 #if DEBUG
                 AllowInsecureHttp = true
 #endif

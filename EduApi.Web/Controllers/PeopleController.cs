@@ -11,37 +11,38 @@ using EduApi.Web.Services;
 namespace EduApi.Web.Controllers
 {
     /// <summary>
-    /// The Students resource endpoint.
+    /// The persons resource endpoint.
     /// </summary>
-    public class StudentsController : ApiController
+    public class PeopleController : ApiController
     {
-        private IStudentsService _studentsService;
-        public StudentsController(IStudentsService studentsService)
+        private IPeopleService _peopleService;
+        public PeopleController(IPeopleService peopleService)
         {
-            _studentsService = studentsService;
+            _peopleService = peopleService;
         }
 
-        // GET: api/Students
+        // GET: api/persons
         /// <summary>
-        /// Gets all students
+        /// Gets all persons
         /// </summary>
         /// <remarks>
-        /// Gets a collection of all students.
+        /// Gets a collection of all persons.
         /// </remarks>
-        /// <returns>Student[] An array of students.</returns>
-        /// <seealso cref="Student" />
+        /// <returns>Person[] An array of persons.</returns>
+        /// <seealso cref="Person" />
         /// <response code="200"></response>
-        [ResponseType(typeof(IEnumerable<Student>))]
-        public async Task<IHttpActionResult> Get()
+        /// <response code="404">If Person not found</response>
+        [ResponseType(typeof(IEnumerable<Person>))]
+        public async Task<IHttpActionResult> Get([FromUri]QuerySpec querySpec)
         {
             try
             {
-                var model = await _studentsService.Get();
+                var model = await _peopleService.Get(querySpec);
+
+                if (model == null)
+                    return NotFound();
+
                 return Ok(model);
-            }
-            catch (SqlException ex)
-            {
-                return InternalServerError(ex);
             }
             catch (Exception ex)
             {
@@ -49,28 +50,28 @@ namespace EduApi.Web.Controllers
             }
         }
 
-        // GET: api/Students/5
+        // GET: api/persons/5
         /// <summary>
-        /// Get a student by Id
+        /// Get a person by Id
         /// </summary>
         /// <remarks>
-        /// Gets a single student based on the requested Id.
+        /// Gets a single person based on the requested Id.
         /// </remarks>
-        /// <param name="id"> The student id to filter by.</param>
-        /// <returns>Student</returns>
-        /// <seealso cref="Student" />
+        /// <param name="id"> The person id to filter by.</param>
+        /// <returns>Person</returns>
+        /// <seealso cref="Person" />
         /// <response code="200"></response>
-        [ResponseType(typeof(Student))]
+        [ResponseType(typeof(Person))]
         public async Task<IHttpActionResult> Get(int id)
         {
             try
             {
-                var model = await _studentsService.Get(id);
+                var model = await _peopleService.Get(id);
+
+                if (model == null)
+                    return NotFound();
+
                 return Ok(model);
-            }
-            catch (InvalidOperationException)
-            {
-                return NotFound();
             }
             catch (Exception ex)
             {
@@ -78,26 +79,26 @@ namespace EduApi.Web.Controllers
             }
         }
 
-        // POST: api/Students
+        // POST: api/persons
         /// <summary>
-        /// Posts / Adds a student
+        /// Posts / Adds a person
         /// </summary>
         /// <remarks>
-        /// Allows for adding a new student resource
+        /// Allows for adding a new person resource
         /// </remarks>
-        /// <param name="model"> The Student request to be persisted.</param>
-        /// <returns>Student</returns>
-        /// <seealso cref="Student"/>
+        /// <param name="model"> The Person request to be persisted.</param>
+        /// <returns>Person</returns>
+        /// <seealso cref="Person"/>
         /// <response code="201"></response>
-        [ResponseType(typeof(Student))]
-        public async Task<IHttpActionResult> Post([FromBody]Student model)
+        [ResponseType(typeof(Person))]
+        public async Task<IHttpActionResult> Post([FromBody]Person model)
         {
             try
             {
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
 
-                await _studentsService.Add(model);
+                await _peopleService.Add(model);
 
                 var createdLocation = Path.Combine(Request.RequestUri.ToString(), model.Id.ToString());
 
@@ -109,19 +110,19 @@ namespace EduApi.Web.Controllers
             }
         }
 
-        // PUT: api/Students/5
+        // PUT: api/persons/5
         /// <summary>
-        /// Puts / Updates a student
+        /// Puts / Updates a person
         /// </summary>
         /// <remarks>
-        /// Allows for updating student resource
+        /// Allows for updating person resource
         /// </remarks>
-        /// <param name="id"> The Student's id.</param>
-        /// <param name="model"> The Student request to be updated.</param>
+        /// <param name="id"> The Person's id.</param>
+        /// <param name="model"> The Person request to be updated.</param>
         /// <returns></returns>
-        /// <seealso cref="Student"/>
+        /// <seealso cref="Person"/>
         /// <response code="200"></response>
-        public async Task<IHttpActionResult> Put(int id, [FromBody]Student model)
+        public async Task<IHttpActionResult> Put(int id, [FromBody]Person model)
         {
             try
             {
@@ -131,40 +132,42 @@ namespace EduApi.Web.Controllers
                 if (id != model.Id)
                     return BadRequest($"requested Id ({id}) and Model.Id ({model.Id}) do not match. Please verify and try again.");
 
-                await _studentsService.Update(model);
+                var updatedModel = await _peopleService.Update(model);
+
+                if (updatedModel == null)
+                    return NotFound();
 
                 // For a put action we return Ok with no content.
-                return Ok();
+                return Ok(updatedModel);
             }
             catch (Exception ex)
             {
                 return InternalServerError(ex);
             }
-
         }
 
-        // DELETE: api/Students/5
+        // DELETE: api/persons/5
         /// <summary>
-        /// Deletes a student
+        /// Deletes a person
         /// </summary>
         /// <remarks>
-        /// Allows for deleteing a student resource based on Id
+        /// Allows for deleteing a person resource based on Id
         /// </remarks>
-        /// <param name="id"> The student id requested to be deleted.</param>
+        /// <param name="id"> The person id requested to be deleted.</param>
         /// <returns></returns>
-        /// <seealso cref="Student"/>
+        /// <seealso cref="Person"/>
         /// <response code="200"></response>
         public async Task<IHttpActionResult> Delete(int id)
         {
             try
             {
-                await _studentsService.Delete(id);
+                var deleted = await _peopleService.Delete(id);
+
+                if (deleted == false)
+                    return NotFound();
+
                 // Return Ok no content.
                 return Ok();
-            }
-            catch (InvalidOperationException)
-            {
-                return NotFound();
             }
             catch (Exception ex)
             {

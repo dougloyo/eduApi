@@ -7,7 +7,7 @@ namespace EduApi.Web.Security
     /// <summary>
     /// The Default imlementation of the OAuth Authorizaton Server Provider
     /// </summary>
-    public class DefaultOAuthAuthorizationServerProvider : OAuthAuthorizationServerProvider
+    public class DefaultOAuthAuthorizationServerProvider : OAuthAuthorizationServerProvider, IOAuthAuthorizationServerProvider
     {
         private readonly IClaimsIdentityProvider _claimsIdentityProvider;
 

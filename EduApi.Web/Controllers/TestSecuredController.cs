@@ -8,6 +8,8 @@ using System.Web.Http;
 namespace EduApi.Web.Controllers
 {
     [Authorize]
+    //TODO: Create a custom Authorize attribute that will read the JWT Claims and Authorize the request.
+    //[AuthorizeByRole("Admin","Teacher")]
     public class TestSecuredController : ApiController
     {
         // GET: api/TestSecured

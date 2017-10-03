@@ -18,8 +18,8 @@ namespace EduApi.Web.Tests.ServiceTests
             public async Task Should_return_a_collection_of_students()
             {
                 var suppliedDatabaseContext = AsyncDatabaseContextMockingHelper.GetMockedStudentDatabaseContext();
-                IStudentsService service = new StudentsService(suppliedDatabaseContext.Object);
-                var actualModel = await service.Get();
+                IPeopleService service = new PeopleService(suppliedDatabaseContext.Object);
+                var actualModel = await service.Get(new QuerySpec());
                 Assert.IsTrue(actualModel.Any());
             }
         }
@@ -31,7 +31,7 @@ namespace EduApi.Web.Tests.ServiceTests
             public async Task Should_return_a_the_student_with_the_requested_id()
             {
                 var suppliedContext = AsyncDatabaseContextMockingHelper.GetMockedStudentDatabaseContext();
-                IStudentsService service = new StudentsService(suppliedContext.Object);
+                IPeopleService service = new PeopleService(suppliedContext.Object);
                 var suppliedStudentId = 1;
                 var actualModel = await service.Get(suppliedStudentId);
                 Assert.IsTrue(actualModel.Id == suppliedStudentId);
@@ -45,8 +45,8 @@ namespace EduApi.Web.Tests.ServiceTests
             public async Task Should_return_the_student_that_was_persisted()
             {
                 var suppliedContext = AsyncDatabaseContextMockingHelper.GetMockedStudentDatabaseContext();
-                IStudentsService service = new StudentsService(suppliedContext.Object);
-                var suppliedStudent = new Student { FirstName = "John", LastName = "Doe" };
+                IPeopleService service = new PeopleService(suppliedContext.Object);
+                var suppliedStudent = new Person { FirstName = "John", LastName = "Doe" };
                 var actualModel = await service.Add(suppliedStudent);
 
                 // Note: We could use reflection to ensure all properties are mapped.
@@ -62,7 +62,7 @@ namespace EduApi.Web.Tests.ServiceTests
             public async Task Should_update_student_info()
             {
                 var suppliedContext = AsyncDatabaseContextMockingHelper.GetMockedStudentDatabaseContext();
-                IStudentsService service = new StudentsService(suppliedContext.Object);
+                IPeopleService service = new PeopleService(suppliedContext.Object);
 
                 // Get a student and update his name.
                 var actualModel = await service.Get(1);
@@ -87,11 +87,11 @@ namespace EduApi.Web.Tests.ServiceTests
                 var suppliedStudentDbSet = AsyncDatabaseContextMockingHelper.GetStudentDbSet();
                 var suppliedContext = AsyncDatabaseContextMockingHelper.GetMockedStudentDatabaseContext(suppliedStudentDbSet.Object);
 
-                IStudentsService service = new StudentsService(suppliedContext.Object);
+                IPeopleService service = new PeopleService(suppliedContext.Object);
                 await service.Delete(1);
 
-                var actualDeletedStudent = suppliedContext.Object.Students.Single(x => x.Id == 1);
-                suppliedStudentDbSet.Verify<Student>(m => m.Remove(actualDeletedStudent), Times.Once);
+                var actualDeletedStudent = suppliedContext.Object.People.Single(x => x.Id == 1);
+                suppliedStudentDbSet.Verify<Person>(m => m.Remove(actualDeletedStudent), Times.Once);
                 suppliedContext.Verify(m => m.SaveChangesAsync(), Times.Once);
             }
 
@@ -99,7 +99,7 @@ namespace EduApi.Web.Tests.ServiceTests
             public void Should_throw_exception_if_student_id_does_NOT_exist()
             {
                 var suppliedContext = AsyncDatabaseContextMockingHelper.GetMockedStudentDatabaseContext();
-                IStudentsService service = new StudentsService(suppliedContext.Object);
+                IPeopleService service = new PeopleService(suppliedContext.Object);
                 
                 var exception = Assert.ThrowsAsync<InvalidOperationException>(async () => await service.Delete(-99));
 

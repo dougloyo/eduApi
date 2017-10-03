@@ -13,7 +13,7 @@ namespace EduApi.Web.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201705152259561_Initial"; }
+            get { return "201710162118577_Initial"; }
         }
         
         string IMigrationMetadata.Source

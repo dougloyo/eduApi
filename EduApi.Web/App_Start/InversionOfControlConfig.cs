@@ -32,7 +32,7 @@ namespace EduApi.Web.App_Start
         private static void RegisterDependencies(Container container)
         {
             // Register services by convention:
-            // I.E.: container.Register<IStudentsService, StudentsService>();
+            // I.E.: container.Register<IPeopleService, PeopleService>();
             RegisterServicesByConvention(container);
 
             // Register Database dependencies.
@@ -48,7 +48,7 @@ namespace EduApi.Web.App_Start
             container.Register<IClaimsProvider, DefaultClaimsProvider>();
             container.Register<ISigningCredentialsProvider, HMACSHA256SigningCredentialsProvider>();
             container.Register<ITokenFormatProvider, JwtTokenFormatProvider>();
-            container.Register<OAuthAuthorizationServerProvider, DefaultOAuthAuthorizationServerProvider>();
+            container.Register<IOAuthAuthorizationServerProvider, DefaultOAuthAuthorizationServerProvider>();
         }
 
         private static void RegisterServicesByConvention(Container container)

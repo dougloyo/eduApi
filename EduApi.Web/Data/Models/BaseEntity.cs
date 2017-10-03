@@ -12,7 +12,7 @@ namespace EduApi.Web.Data.Models
         /// </summary>
         [Column(TypeName = "datetime2")]
         [DataType(DataType.DateTime)]
-        public DateTime CreatedDateTime { get; set; }
+        public DateTime CreatedUtcDateTime { get; set; }
         
         /// <summary>
         /// The application id that created the record.
@@ -24,20 +24,12 @@ namespace EduApi.Web.Data.Models
         /// </summary>
         [Column(TypeName = "datetime2")]
         [DataType(DataType.DateTime)]
-        public DateTime? LastUpdatedDateTime { get; set; }
+        public DateTime? LastUpdatedUtcDateTime { get; set; }
         
         /// <summary>
         /// The application that last updated the record.
         /// </summary>
         public int? LastUpdatedApplicationId { get; set; }
-    }
-
-    public abstract class BaseEntity : BaseAuditFields
-    {
-        /// <summary>
-        /// The surogate key for all entities.
-        /// </summary>
-        public int Id { get; set; }
 
         /// <summary>
         /// The logical delete field.
@@ -46,10 +38,23 @@ namespace EduApi.Web.Data.Models
         public bool Deleted { get; set; }
 
         /// <summary>
+        /// The application that deleted the record.
+        /// </summary>
+        public int? DeletedApplicationId { get; set; }
+
+        /// <summary>
         /// The date when the record was delted.
         /// </summary>
         [Column(TypeName = "datetime2")]
         [DataType(DataType.DateTime)]
-        public DateTime? DeletedDate { get; set; }
+        public DateTime? DeletedUtcDate { get; set; }
+    }
+
+    public abstract class BaseEntity : BaseAuditFields
+    {
+        /// <summary>
+        /// The surogate internal application key for all entities.
+        /// </summary>
+        public int Id { get; set; }
     }
 }

@@ -159,21 +159,18 @@
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\Admin\AdminController.cs" />
-    <Compile Include="Controllers\StudentsController.cs" />
+    <Compile Include="Controllers\PeopleController.cs" />
     <Compile Include="Controllers\TestSecuredController.cs" />
     <Compile Include="Data\DatabaseContext.cs" />
     <Compile Include="Data\Helpers\EntityHelpers.cs" />
     <Compile Include="Data\Models\BaseEntity.cs" />
-    <Compile Include="Migrations\201705152259561_Initial.cs" />
-    <Compile Include="Migrations\201705152259561_Initial.Designer.cs">
-      <DependentUpon>201705152259561_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201705171345345_AddingBaseEntityModel.cs" />
-    <Compile Include="Migrations\201705171345345_AddingBaseEntityModel.Designer.cs">
-      <DependentUpon>201705171345345_AddingBaseEntityModel.cs</DependentUpon>
+    <Compile Include="Migrations\201710162118577_Initial.cs" />
+    <Compile Include="Migrations\201710162118577_Initial.Designer.cs">
+      <DependentUpon>201710162118577_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\Student.cs" />
+    <Compile Include="Models\Person.cs" />
+    <Compile Include="Models\QuerySpec.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationSettingsProvider.cs" />
     <Compile Include="Security\DefaultOAuthAuthorizationServerProvider.cs" />
@@ -183,11 +180,12 @@
     <Compile Include="Security\HMACSHA256SigningCredentialsProvider.cs" />
     <Compile Include="Security\ISigningCredentialsProvider.cs" />
     <Compile Include="Security\JWT\JwtTokenFormatProvider.cs" />
-    <Compile Include="Services\StudentsService.cs" />
+    <Compile Include="Services\PeopleService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+    <Content Include="README.md" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -199,11 +197,8 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201705152259561_Initial.resx">
-      <DependentUpon>201705152259561_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201705171345345_AddingBaseEntityModel.resx">
-      <DependentUpon>201705171345345_AddingBaseEntityModel.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201710162118577_Initial.resx">
+      <DependentUpon>201710162118577_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

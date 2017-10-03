@@ -16,33 +16,33 @@ namespace EduApi.Web.Tests.EntityFrameworkMockingHelpers
             return GetListOf2Students().GetMockedStudentDatabaseContext();
         }
 
-        public static List<Student> GetListOf2Students()
+        public static List<Person> GetListOf2Students()
         {
-            return new List<Student>
+            return new List<Person>
                         {
-                            new Student { Id = 1, StudentId = "U101", FirstName = "John", LastName = "Doe", DateOfBirth = DateTime.Parse("1/1/2009"), Gender = 1, Grade = 2, Email = "john@mail.com" },
-                            new Student { Id = 2, StudentId = "U102", FirstName = "Jane", LastName = "Doe", DateOfBirth = DateTime.Parse("1/1/2009"), Gender = 2, Grade = 2, Email = "jane@mail.com" },
+                            new Person { Id = 1, PersonKey = "U101", FirstName = "John", LastName = "Doe", DateOfBirth = DateTime.Parse("1/1/2009"), GenderAtBirth = 1, Email = "john@mail.com" },
+                            new Person { Id = 2, PersonKey = "U102", FirstName = "Jane", LastName = "Doe", DateOfBirth = DateTime.Parse("1/1/2009"), GenderAtBirth = 2, Email = "jane@mail.com" },
                         };
         }
 
-        public static Mock<DatabaseContext> GetMockedStudentDatabaseContext(DbSet<Student> dbSet)
+        public static Mock<DatabaseContext> GetMockedStudentDatabaseContext(DbSet<Person> dbSet)
         {
             var mockContext = new Mock<DatabaseContext>();
-            mockContext.Setup(c => c.Students).Returns(dbSet);
+            mockContext.Setup(c => c.People).Returns(dbSet);
             return mockContext;
         }
 
-        public static Mock<DatabaseContext> GetMockedStudentDatabaseContext(this List<Student> data)
+        public static Mock<DatabaseContext> GetMockedStudentDatabaseContext(this List<Person> data)
         {
             var dbSet = data.GetAsyncMockedDbSet();
 
             var mockContext = new Mock<DatabaseContext>();
-            mockContext.Setup(c => c.Students).Returns(dbSet.Object);
+            mockContext.Setup(c => c.People).Returns(dbSet.Object);
 
             return mockContext;
         }
 
-        public static Mock<DbSet<Student>> GetStudentDbSet()
+        public static Mock<DbSet<Person>> GetStudentDbSet()
         {
             return GetListOf2Students().GetAsyncMockedDbSet();
         }

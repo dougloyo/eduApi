@@ -8,17 +8,23 @@ namespace EduApi.Web.Migrations
         public override void Up()
         {
             CreateTable(
-                "dbo.Student",
+                "dbo.Person",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        StudentId = c.String(nullable: false, maxLength: 50),
+                        PersonKey = c.String(maxLength: 50),
                         FirstName = c.String(nullable: false, maxLength: 30),
                         LastName = c.String(nullable: false, maxLength: 30),
                         DateOfBirth = c.DateTime(nullable: false),
-                        Gender = c.Int(nullable: false),
+                        GenderAtBirth = c.Int(nullable: false),
                         Email = c.String(nullable: false, maxLength: 75),
-                        Grade = c.Int(nullable: false),
+                        CreatedUtcDateTime = c.DateTime(nullable: false, precision: 7, storeType: "datetime2"),
+                        CreatedApplicationId = c.Int(nullable: false),
+                        LastUpdatedUtcDateTime = c.DateTime(precision: 7, storeType: "datetime2"),
+                        LastUpdatedApplicationId = c.Int(),
+                        Deleted = c.Boolean(nullable: false),
+                        DeletedApplicationId = c.Int(),
+                        DeletedUtcDate = c.DateTime(precision: 7, storeType: "datetime2"),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -26,7 +32,7 @@ namespace EduApi.Web.Migrations
         
         public override void Down()
         {
-            DropTable("dbo.Student");
+            DropTable("dbo.Person");
         }
     }
 }

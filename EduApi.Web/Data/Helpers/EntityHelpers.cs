@@ -7,12 +7,12 @@ namespace EduApi.Web.Data.Helpers
     {
         public static void SetInsertAuditFields(this BaseEntity entity)
         {
-            entity.CreatedDateTime = DateTime.UtcNow;
+            entity.CreatedUtcDateTime = DateTime.UtcNow;
         }
 
         public static void SetUpdateAuditFields(this BaseEntity entity)
         {
-            entity.LastUpdatedDateTime = DateTime.UtcNow;
+            entity.LastUpdatedUtcDateTime = DateTime.UtcNow;
         }
     }
 }
