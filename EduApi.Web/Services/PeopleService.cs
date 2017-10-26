@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Linq;
+using System.Linq.Dynamic;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Threading.Tasks;
@@ -11,7 +13,7 @@ namespace EduApi.Web.Services
 {
     public interface IPeopleService
     {
-        Task<IEnumerable<Person>> Get(QuerySpec querySpec);
+        Task<IEnumerable> Get(QuerySpec querySpec);
         Task<Person> Get(int id);
         Task<Person> Add(Person model);
         Task<Person> Update(Person model);
@@ -30,17 +32,32 @@ namespace EduApi.Web.Services
             _db = dbContext;
         }
 
-        public async Task<IEnumerable<Person>> Get(QuerySpec querySpec)
+        public async Task<IEnumerable> Get(QuerySpec querySpec)
         {
+            // When paginating it would be great to know how many records are total.
+            // Options:
+            //    1) We could wrap in envelope: { data:[], _metadata:{ totalCount: 100, limit:25, offset:3 } }
+            //       Drawback: you now need to do something like students.items to get to the data.
+            //    2) We could use custom headers: x-total-count: 100, x-limit:25, x-offset:3
+            //       Drawback: you need special logic to pull from the headers.
+            //    3) We could use link: <a href="resource?offset=2&limit=25" rel="next"> 
+            //                          <a href="resource?offset=1&limit=25" rel="prev">
+            //                          <a href="resource?offset=9&limit=25" rel="last">
+            //       Drawback: Where does total go?  
+            //var total = await _db.People.Where(x => x.Deleted == false).CountAsync();
+
             var total = await _db.People.Where(x => x.Deleted == false).CountAsync();
 
-            var model = await _db.People
-                                 .Where(x=>x.Deleted==false)
-                                 .OrderBy(x=>x.Id)
-                                 .Skip(querySpec.PageNumber)
-                                 .Take(querySpec.PageSize)
-                                 .ToListAsync();
-            return model;
+            IQueryable query = _db.People.Where(x=>!x.Deleted)
+                                     .Where(querySpec.Filter)
+                                     .OrderBy(querySpec.OrderBy)
+                                     .Skip(querySpec.PageNumber)
+                                     .Take(querySpec.PageSize);
+
+            if (!string.IsNullOrEmpty(querySpec.Select))
+                query = query.Select("new(" + querySpec.Select + ")");
+
+            return await query.ToListAsync();
         }
 
         public async Task<Person> Get(int id)

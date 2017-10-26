@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
+using System.Data.Entity;
+using System.Dynamic;
 using System.IO;
+using System.Linq;
+using System.Linq.Dynamic;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
+using EduApi.Web.Data;
 using EduApi.Web.Models;
 using EduApi.Web.Services;
 
@@ -16,6 +20,7 @@ namespace EduApi.Web.Controllers
     public class PeopleController : ApiController
     {
         private IPeopleService _peopleService;
+
         public PeopleController(IPeopleService peopleService)
         {
             _peopleService = peopleService;
@@ -32,6 +37,14 @@ namespace EduApi.Web.Controllers
         /// <seealso cref="Person" />
         /// <response code="200"></response>
         /// <response code="404">If Person not found</response>
+        /// <param name="querySpec">Used to indicate query options like pageSize, pageNumber, filter, select </param>
+        /// <example>
+        /// This sample shows the different options for querying the <see cref="Get(EduApi.Web.Models.QuerySpec)"/> endpoint.
+        /// <code>
+        ///     ~/People?pageSize=25&pageNumber=10
+        ///     ~/People?filter=
+        /// </code>
+        /// </example>
         [ResponseType(typeof(IEnumerable<Person>))]
         public async Task<IHttpActionResult> Get([FromUri]QuerySpec querySpec)
         {

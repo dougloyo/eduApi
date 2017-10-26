@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EduApi.Web.Models;
@@ -19,7 +20,7 @@ namespace EduApi.Web.Tests.ServiceTests
             {
                 var suppliedDatabaseContext = AsyncDatabaseContextMockingHelper.GetMockedStudentDatabaseContext();
                 IPeopleService service = new PeopleService(suppliedDatabaseContext.Object);
-                var actualModel = await service.Get(new QuerySpec());
+                var actualModel = await service.Get(new QuerySpec()) as List<object>;
                 Assert.IsTrue(actualModel.Any());
             }
         }
@@ -91,19 +92,20 @@ namespace EduApi.Web.Tests.ServiceTests
                 await service.Delete(1);
 
                 var actualDeletedStudent = suppliedContext.Object.People.Single(x => x.Id == 1);
-                suppliedStudentDbSet.Verify<Person>(m => m.Remove(actualDeletedStudent), Times.Once);
+                // If testing for fisical delete then uncomment this line.
+                //suppliedStudentDbSet.Verify<Person>(m => m.Remove(actualDeletedStudent), Times.Once);
                 suppliedContext.Verify(m => m.SaveChangesAsync(), Times.Once);
             }
 
             [Test]
-            public void Should_throw_exception_if_student_id_does_NOT_exist()
+            public async Task Should_return_false_if_student_id_does_NOT_exist()
             {
                 var suppliedContext = AsyncDatabaseContextMockingHelper.GetMockedStudentDatabaseContext();
                 IPeopleService service = new PeopleService(suppliedContext.Object);
                 
-                var exception = Assert.ThrowsAsync<InvalidOperationException>(async () => await service.Delete(-99));
+                var actualValue = await service.Delete(-99);
 
-                Assert.That(exception.Message,Is.EqualTo("Not found: requested entity id was not found."));
+                Assert.That(actualValue,Is.False);
             }
         }
     }
