@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduApi.Web", "D:\projects\other\eduapi\EduApi.Web\EduApi.Web.csproj", "{66013134-BC6D-40BD-8B51-90456D6ADD2F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduApi.Web", "EduApi.Web\EduApi.Web.csproj", "{66013134-BC6D-40BD-8B51-90456D6ADD2F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduApi.Web.Tests", "D:\projects\other\eduapi\EduApi.Web.Tests\EduApi.Web.Tests.csproj", "{47EFBA67-12DC-4141-AFE6-436F3E2A09DE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduApi.Web.Tests", "EduApi.Web.Tests\EduApi.Web.Tests.csproj", "{47EFBA67-12DC-4141-AFE6-436F3E2A09DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
